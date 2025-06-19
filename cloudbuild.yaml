@@ -16,18 +16,18 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
+
+  # Trigger Cloud Deploy release with canary rollout
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
       [
-        'run', 'deploy', 'cloud-ml-app-sh',
-        '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA',
-        '--region', 'us-central1',
-        '--platform', 'managed',
-        '--allow-unauthenticated',
-        '--set-env-vars', 'VERSION=$SHORT_SHA'
+        'deploy', 'releases', 'create', 'release-$SHORT_SHA',
+        '--delivery-pipeline=cloud-run-pipeline',
+        '--region=us-central1',
+        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
       ]
-    id: 'Deploy to Cloud Run'
+    id: 'Create Cloud Deploy Release'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET

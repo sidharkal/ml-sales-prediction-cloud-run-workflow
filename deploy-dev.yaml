@@ -1,9 +1,12 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: cloud-run-app
+  name: cloud-run-ml-app
 spec:
   template:
     spec:
       containers:
-        - image: cloud-run-ml-app
+      - image: us-central1-docker.pkg.dev/faa-gcp-training-14-kfa-0808/sales-prediction-app-sh/cloud-run-ml-app:$TAG
+        env:
+        - name: VERSION
+          value: "$TAG"

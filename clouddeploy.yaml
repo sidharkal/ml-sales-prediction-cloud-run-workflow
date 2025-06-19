@@ -1,1 +1,20 @@
-
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: cloud-run-pipeline
+  description: application deployment pipeline with canary rollout
+serialPipeline:
+  stages:
+  - targetId: dev-env
+    profiles: [dev]
+    strategy:
+      canary:
+        trafficPercentages: [25, 75, 100]  # Canary rollout percentages
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: dev-env
+  description: Cloud Run development environment target
+run:
+  location: projects/faa-gcp-training-14-kfa-0808/locations/us-central1  # Replace YOUR_PROJECT_ID and region
