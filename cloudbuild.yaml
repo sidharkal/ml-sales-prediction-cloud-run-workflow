@@ -16,21 +16,21 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
+  # Cloud Deploy release triggers the canary and progressive rollout
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
       [
-        'run', 'deploy', 'cloud-run-app',
-        '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA',
-        '--region', 'us-central1',
-        '--platform', 'managed',
-        '--allow-unauthenticated',
-        '--set-env-vars', 'VERSION=$SHORT_SHA'
+        'deploy', 'releases', 'create', '$SHORT_SHA',
+        '--delivery-pipeline=cloud-run-pipeline',
+        '--region=us-central1',
+        '--annotations=clouddeploy.googleapis.com/release-trigger=cloud-build',
+        '--images=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
       ]
-    id: 'Deploy to Cloud Run'
+    id: 'Create Cloud Deploy Release'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 substitutions:
-  _SERVICE_NAME: cloud-run-ml-app
+  _SERVICE_NAME: cloud-run-app
