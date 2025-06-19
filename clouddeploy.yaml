@@ -2,19 +2,46 @@ apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
   name: cloud-run-pipeline
-  description: application deployment pipeline with canary rollout
+  description: Application deployment pipeline with canary rollout on dev
 serialPipeline:
   stages:
-  - targetId: dev-env
-    profiles: [dev]
-    strategy:
-      canary:
-        trafficPercentages: [25, 75, 100]  # Canary rollout percentages
+    - targetId: dev-env
+      profiles: [dev]
+      strategy:
+        canary:
+          trafficPercentages: [25, 75, 100]
+    - targetId: qa-env
+      profiles: [qa]
+    - targetId: prod-env
+      profiles: [prod]
+
 ---
+
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
 metadata:
   name: dev-env
   description: Cloud Run development environment target
 run:
-  location: projects/faa-gcp-training-14-kfa-0808/locations/us-central1  # Replace YOUR_PROJECT_ID and region
+  location: projects/faa-gcp-training-14-kfa-0808/locations/us-west1
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: qa-env
+  description: Cloud Run QA environment target
+run:
+  location: projects/faa-gcp-training-14-kfa-0808/locations/us-central1
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: prod-env
+  description: Cloud Run production environment target
+  requireApproval: true
+run:
+  location: projects/faa-gcp-training-14-kfa-0808/locations/us-south1

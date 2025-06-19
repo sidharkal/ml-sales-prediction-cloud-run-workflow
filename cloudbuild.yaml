@@ -1,4 +1,5 @@
 steps:
+  # Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -8,6 +9,7 @@ steps:
       ]
     id: 'Build Docker image'
 
+  # Push image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -16,8 +18,7 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
-
-  # Trigger Cloud Deploy release with canary rollout
+  # Trigger Google Cloud Deploy release to dev with canary rollout
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -25,8 +26,7 @@ steps:
         'deploy', 'releases', 'create', 'release-$SHORT_SHA',
         '--delivery-pipeline=cloud-run-pipeline',
         '--region=us-central1',
-        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA',
-        '--skaffold-file=skaffold.yaml'
+        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
       ]
     id: 'Create Cloud Deploy Release'
 

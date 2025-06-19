@@ -1,12 +1,19 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: cloud-run-ml-app-dev   # add -dev suffix to identify environment
+  name: cloud-run-ml-app-dev
 spec:
   template:
     spec:
       containers:
-      - image: us-central1-docker.pkg.dev/faa-gcp-training-14-kfa-0808/sales-prediction-app-sh/cloud-run-ml-app:$TAG
+      - image: us-west1-docker.pkg.dev/_PROJECT_ID/_REPO/cloud-run-ml-app:$TAG
         env:
         - name: VERSION
           value: "$TAG"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
