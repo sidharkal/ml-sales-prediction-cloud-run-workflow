@@ -16,7 +16,7 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
-  # Trigger Cloud Deploy release instead of direct deploy
+  # Replace manual deploy with Cloud Deploy release
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -24,13 +24,11 @@ steps:
         'deploy', 'releases', 'create', '$SHORT_SHA',
         '--delivery-pipeline=cloud-run-pipeline',
         '--region=us-central1',
-        '--annotations=clouddeploy.googleapis.com/release-trigger=cloud-build',
-        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
+        '--images=cloud-run-ml-app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA',
+        '--from-run-manifest=deploy-dev.yaml',
+        '--to-target=dev-env'
       ]
     id: 'Create Cloud Deploy Release'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
-
-substitutions:
-  _SERVICE_NAME: cloud-run-ml-app

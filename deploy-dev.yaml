@@ -1,0 +1,9 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-run-app
+spec:
+  template:
+    spec:
+      containers:
+        - image: cloud-run-ml-app
