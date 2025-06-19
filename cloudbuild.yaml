@@ -24,7 +24,7 @@ steps:
     args:
       [
         'deploy', 'releases', 'create', 'release-$SHORT_SHA',
-        '--delivery-pipeline=cloud-run-pipeline',
+        '--delivery-pipeline=cloud-run-ml-sales-pipeline-sh',
         '--region=us-central1',
         '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
       ]

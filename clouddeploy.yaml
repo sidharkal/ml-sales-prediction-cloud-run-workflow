@@ -1,15 +1,12 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
-  name: cloud-run-pipeline
+  name: cloud-run-ml-sales-pipeline-sh
   description: Application deployment pipeline with canary rollout on dev
 serialPipeline:
   stages:
     - targetId: dev-env
       profiles: [dev]
-      strategy:
-        canary:
-          trafficPercentages: [25, 75, 100]
     - targetId: qa-env
       profiles: [qa]
     - targetId: prod-env
