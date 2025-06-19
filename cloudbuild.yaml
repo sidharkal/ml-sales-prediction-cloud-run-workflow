@@ -16,7 +16,7 @@ steps:
       ]
     id: 'Push to Artifact Registry'
 
-  # Cloud Deploy release triggers the canary and progressive rollout
+  # Trigger Cloud Deploy release instead of direct deploy
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -33,4 +33,4 @@ options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 substitutions:
-  _SERVICE_NAME: cloud-run-app
+  _SERVICE_NAME: cloud-run-ml-app
