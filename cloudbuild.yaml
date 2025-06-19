@@ -25,7 +25,8 @@ steps:
         'deploy', 'releases', 'create', 'release-$SHORT_SHA',
         '--delivery-pipeline=cloud-run-pipeline',
         '--region=us-central1',
-        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
+        '--images=app=us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA',
+        '--skaffold-file=skaffold.yaml'
       ]
     id: 'Create Cloud Deploy Release'
 

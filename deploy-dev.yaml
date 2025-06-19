@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: cloud-run-ml-app
+  name: cloud-run-ml-app-dev   # add -dev suffix to identify environment
 spec:
   template:
     spec:
