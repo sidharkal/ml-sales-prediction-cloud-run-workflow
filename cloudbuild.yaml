@@ -29,3 +29,8 @@ steps:
       ]
     id: 'Deploy to Cloud Run'
 
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
+substitutions:
+  _SERVICE_NAME: cloud-run-ml-app
