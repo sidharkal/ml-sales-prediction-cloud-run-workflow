@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-      - image: us-west1-docker.pkg.dev/_PROJECT_ID/_REPO/cloud-run-ml-app:$TAG
+      - image: us-central1-docker.pkg.dev/$PROJECT_ID/sales-prediction-app-sh/cloud-run-ml-app:$SHORT_SHA'
         env:
         - name: VERSION
           value: "$TAG"
