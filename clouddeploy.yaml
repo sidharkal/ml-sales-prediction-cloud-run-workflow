@@ -7,6 +7,14 @@ serialPipeline:
   stages:
     - targetId: dev-env
       profiles: [dev]
+      strategy:
+        canary:
+          runtimeConfig:
+            cloudRun:
+              automaticTrafficControl: true
+          canaryDeployment:
+            percentages: [25, 75]
+            verify: false
     - targetId: qa-env
       profiles: [qa]
     - targetId: prod-env
